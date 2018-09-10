@@ -48,16 +48,7 @@ namespace {
 
 // Tests edu::sbcc:cs140::String.
 
-    using edu::sbcc::cs140::FibonacciSolver;
-    using edu::sbcc::cs140::RecursiveFibonacciSolver;
-    using edu::sbcc::cs140::DynamicFibonacciSolver;
-#ifdef SUPPORTS_CLOSED_FORM
-    using edu::sbcc::cs140::ClosedFormFibonacciSolver;
-#endif
-
-#ifdef SUPPORTS_ITERATIVE
-    using edu::sbcc::cs140::IterativeFibonacciSolver;
-#endif
+    using edu::sbcc::cs140::fibonacci;
 
     using std::chrono::system_clock;
     using std::chrono::microseconds;
@@ -110,96 +101,18 @@ namespace {
 
     uint FibonacciTest::_testScore = 0;
 
-    TEST_F(FibonacciTest, Recursive) {
-        // This test is named "Identity", it checks that the basic identity
-        // complex number, i, has the correct values for real and imaginary
-        // parts.
-        RecursiveFibonacciSolver recursive;
-        ASSERT_EQ(0, recursive(0));
-        ASSERT_EQ(1, recursive(1));
-        ASSERT_EQ(1, recursive(2));
-        ASSERT_EQ(2, recursive(3));
-        ASSERT_EQ(13, recursive(7));
-        ASSERT_EQ(832040, recursive(30));
-
-        _testScore += 10;
-    }
-
-    TEST_F(FibonacciTest, Dynamic) {
-        // This test is named "Identity", it checks that the basic identity
-        // complex number, i, has the correct values for real and imaginary
-        // parts.
-        DynamicFibonacciSolver dynamic;
-        ASSERT_EQ(0, dynamic(0));
-        ASSERT_EQ(1, dynamic(1));
-        ASSERT_EQ(1, dynamic(2));
-        ASSERT_EQ(2, dynamic(3));
-        ASSERT_EQ(13, dynamic(7));
-        ASSERT_EQ(832040, dynamic(30));
-
-        _testScore += 10;
-    }
-
-#ifdef SUPPORTS_CLOSED_FORM
-    TEST_F(FibonacciTest, ClosedForm) {
-        // This test is named "Identity", it checks that the basic identity
-        // complex number, i, has the correct values for real and imaginary
-        // parts.
-        ClosedFormFibonacciSolver closedFrom;
-        ASSERT_EQ(0, closedFrom(0));
-        ASSERT_EQ(1, closedFrom(1));
-        ASSERT_EQ(1, closedFrom(2));
-        ASSERT_EQ(2, closedFrom(3));
-        ASSERT_EQ(13, closedFrom(7));
-        ASSERT_EQ(832040, closedFrom(30));
-
-        _testScore += 2;
-    }
-#endif
-
-#ifdef SUPPORTS_ITERATIVE
     TEST_F(FibonacciTest, Iterative) {
         // This test is named "Identity", it checks that the basic identity
         // complex number, i, has the correct values for real and imaginary
         // parts.
-        IterativeFibonacciSolver iterative;
-        ASSERT_EQ(0, iterative(0));
-        ASSERT_EQ(1, iterative(1));
-        ASSERT_EQ(1, iterative(2));
-        ASSERT_EQ(2, iterative(3));
-        ASSERT_EQ(13, iterative(7));
-        ASSERT_EQ(832040, iterative(30));
+        ASSERT_EQ(0, fibonacci(0));
+        ASSERT_EQ(1, fibonacci(1));
+        ASSERT_EQ(1, fibonacci(2));
+        ASSERT_EQ(2, fibonacci(3));
+        ASSERT_EQ(13, fibonacci(7));
+        _testScore += 10;
 
-        _testScore += 3;
-    }
-#endif
-
-    TEST_F(FibonacciTest, Timing) {
-        static FibonacciSolver *solvers[] = {
-                new RecursiveFibonacciSolver,
-                new DynamicFibonacciSolver,
-#ifdef SUPPORTS_CLOSED_FORM
-                new ClosedFormFibonacciSolver,
-#endif
-
-#ifdef SUPPORTS_ITERATIVE
-                new IterativeFibonacciSolver,
-#endif
-        };
-
-        auto time = measureExecTime<microseconds>([&]() {
-            (*solvers[0])(FIBONACCI_NUMBER);
-        });
-        std::cout << "Elapsed time: " << time << " us (" << solvers[0]->getName() << ")" << std::endl;
-
-        for (uint32_t i = 1; i < sizeof(solvers) / sizeof(solvers[0]); i++) {
-            FibonacciSolver &solver = *solvers[i];
-            auto elapsed = measureExecTime<microseconds>([&]() {
-                for (uint j = 1; j < TEST_ITERATIONS; j++) {
-                    solver(FIBONACCI_NUMBER);
-                }
-            });
-            std::cout << "Elapsed time: " << elapsed << " us (" << solver.getName() << ")" << std::endl;
-        }
+        ASSERT_EQ(832040, fibonacci(30));
+        _testScore += 10;
     }
 }
