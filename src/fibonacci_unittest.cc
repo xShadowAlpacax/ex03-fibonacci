@@ -48,7 +48,7 @@ namespace {
 
 // Tests edu::sbcc:cs140::String.
 
-    using edu::sbcc::cs140::fibonacci;
+    using edu::vcccd::vc::csv15::fibonacci;
 
     using std::chrono::system_clock;
     using std::chrono::microseconds;
