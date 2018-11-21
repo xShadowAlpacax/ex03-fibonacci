@@ -71,7 +71,8 @@ namespace {
         T elapsed = duration_cast<T>(stop - start);
         return elapsed.count();
     }
-
+typedef uint64_t uint;
+    
     class FibonacciTest : public ::testing::Test {
     protected:
         static const uint MAX_TESTED_SCORE = 20;
